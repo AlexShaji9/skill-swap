@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillSwap - Exchange Skills with Community</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-skill">Skill</span><span class="logo-swap">Swap</span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <button class="btn btn-outline" id="navLoginBtn" onclick="showPage('login')">Login</button>
+                <button class="btn btn-primary" id="navSignupBtn" onclick="showPage('signup')">Sign Up</button>
+                <button class="btn btn-outline" id="navDashboardBtn" onclick="showPage('dashboard')" style="display:none;">Dashboard</button>
+                <button class="btn btn-outline" id="navLogoutBtn" onclick="logout()" style="display:none;">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Page -->
+    <div id="landingPage" class="page active">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">Learn Together. Teach Together.</h1>
+                <p class="hero-subtitle">Exchange skills with community members. Find the perfect match to learn from and teach to.</p>
+                <button class="btn btn-primary btn-large" onclick="showPage('signup')">Get Started</button>
+                <p class="login-link">Already have an account? <a href="#" onclick="showPage('login'); return false;">Login here</a></p>
+            </div>
+        </div>
+        
+        <div class="features-section">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Find Matches</h3>
+                        <p>Our smart algorithm connects you with users who can teach what you want to learn and learn what you can teach.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Real Connections</h3>
+                        <p>Build meaningful relationships through skill exchange. Learn from real people in your community.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎉</div>
+                        <h3>Free Forever</h3>
+                        <p>No hidden fees, no subscriptions. SkillSwap is completely free for everyone to use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signupPage" class="page">
+        <button class="back-button" onclick="navigateBack('signup')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2>Create Your Account</h2>
+                <p class="auth-subtitle">Join the SkillSwap community today</p>
+                <form id="signupForm" onsubmit="handleSignup(event)">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" class="form-control" required>
+                        <small>Minimum 6 characters</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" class="form-control" required>
+                    </div>
+                    <div id="signupError" class="error-message"></div>
+                    <div id="signupSuccess" class="success-message"></div>
+                    <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                </form>
+                <p class="auth-link">Already have an account? <a href="#" onclick="showPage('login'); return false;">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="loginPage" class="page">
+        <button class="back-button" onclick="navigateBack('login')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2>Welcome Back</h2>
+                <p class="auth-subtitle">Login to your SkillSwap account</p>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" required>
+                    </div>
+                    <div id="loginError" class="error-message"></div>
+                    <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                </form>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="showPage('signup'); return false;">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Setup Page -->
+    <div id="profilePage" class="page">
+        <button class="back-button" onclick="navigateBack('profile')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="profile-container">
+            <div class="profile-card">
+                <h2>Set Up Your Profile</h2>
+                <p class="profile-subtitle">Select the skills you can teach and want to learn</p>
+                <form id="profileForm" onsubmit="handleProfileSetup(event)">
+                    <div class="form-group">
+                        <label for="teachSkills">Skills You Can Teach</label>
+                        <div class="skill-select" id="teachSkillsContainer"></div>
+                        <small>Select at least one skill</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="learnSkills">Skills You Want to Learn</label>
+                        <div class="skill-select" id="learnSkillsContainer"></div>
+                        <small>Select at least one skill</small>
+                    </div>
+                    <div id="profileError" class="error-message"></div>
+                    <div id="profileSuccess" class="success-message"></div>
+                    <button type="submit" class="btn btn-primary btn-full">Save Skills &amp; Continue</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="page">
+        <button class="back-button" onclick="navigateBack('dashboard')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h2 id="dashboardWelcome">Welcome!</h2>
+            </div>
+            <div class="dashboard-content">
+                <div class="skills-card">
+                    <h3>Skills You Can Teach</h3>
+                    <div id="dashboardTeachSkills" class="skills-badges"></div>
+                </div>
+                <div class="skills-card">
+                    <h3>Skills You Want to Learn</h3>
+                    <div id="dashboardLearnSkills" class="skills-badges"></div>
+                </div>
+                <div class="dashboard-actions">
+                    <button class="btn btn-primary btn-large" onclick="findMatches()">Find Matches Now</button>
+                    <button class="btn btn-outline" onclick="editSkills()">Edit Skills</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matches Page -->
+    <div id="matchesPage" class="page">
+        <button class="back-button" onclick="navigateBack('matches')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="matches-container">
+            <div class="matches-header">
+                <h2>Your Matches</h2>
+                <div class="matches-actions">
+                    <button class="btn btn-outline" onclick="showPage('dashboard')">Back to Dashboard</button>
+                    <button class="btn btn-primary" onclick="findMatches()">Refresh Matches</button>
+                </div>
+            </div>
+            <div id="matchesContent" class="matches-content"></div>
+        </div>
+    </div>
+
+    <!-- Chat Page -->
+    <div id="chatPage" class="page">
+        <button class="back-button" onclick="navigateBack('chat')">
+            <span class="back-arrow">←</span> Back
+        </button>
+        <div class="chat-container">
+            <div class="chat-main">
+                <div class="chat-header">
+                    <h2 id="chatUserName">Chat</h2>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="empty-chat-state">
+                        <p>No messages yet. Start the conversation!</p>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <textarea 
+                        id="chatInput" 
+                        class="chat-input" 
+                        placeholder="Type your message..."
+                        maxlength="500"
+                        rows="1"
+                    ></textarea>
+                    <div class="chat-input-footer">
+                        <span class="char-count" id="charCount">0/500</span>
+                        <button class="btn btn-primary" id="sendMessageBtn" onclick="sendMessage()">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-sidebar">
+                <div class="chat-user-info">
+                    <h3>Chat With</h3>
+                    <div class="chat-user-details">
+                        <h4 id="sidebarUserName">-</h4>
+                        <div class="chat-user-email" id="sidebarUserEmail">-</div>
+                    </div>
+                    <div class="chat-user-skills">
+                        <h4>They Can Teach:</h4>
+                        <div class="skills-badges" id="sidebarTeachSkills"></div>
+                    </div>
+                    <div class="chat-user-skills">
+                        <h4>They Want to Learn:</h4>
+                        <div class="skills-badges" id="sidebarLearnSkills"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs (required) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <!-- Application logic (Firebase + UI) -->
+    <script src="app.js"></script>
+</body>
+</html>
